@@ -32,12 +32,12 @@ public class MainActivity extends AppCompatActivity
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
                 drawer, toolbar, R.string.open, R.string.close);
         drawer.addDrawerListener(toggle);
+        drawer.setAlpha(1);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         String message = null;

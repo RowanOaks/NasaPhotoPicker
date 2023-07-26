@@ -2,7 +2,20 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Item"
+    <item android:title="Main Menu"
+        android:id="@+id/nav_main"
+        app:showAsAction="always"
+        />
+    <item android:title="Nasa Photos"
+        android:id="@+id/nav_photo_list"
+        app:showAsAction="always"
+        />
+    <item android:title="Favourites menu"
+        android:id="@+id/nav_favourites"
+        app:showAsAction="always"
+        />
+    <item android:title="Fourth item"
+        android:id="@+id/nav_fourth_activity"
         app:showAsAction="always"
         />
 </menu>
