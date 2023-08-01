@@ -4,4 +4,8 @@
     <string name="open">open</string>
     <string name="close">close</string>
     <string name="date_picker_title">Choisir une Date v.1</string>
+    <string name="favourite_images_title">Favourite Images v.1</string>
+    <string name="date_picker_label">Enter a date</string>
+    <string name="title_active_photo">Active Photo v.1</string>
+    <string name="save_photo_button">Save</string>
 </resources>

@@ -10,12 +10,12 @@
         android:id="@+id/nav_photo_list"
         app:showAsAction="always"
         />
-    <item android:title="Favourites menu"
+    <item android:title="Favourites"
         android:id="@+id/nav_favourites"
         app:showAsAction="always"
         />
-    <item android:title="Fourth item"
-        android:id="@+id/nav_fourth_activity"
+    <item android:title="Active Photo"
+        android:id="@+id/nav_active_photo"
         app:showAsAction="always"
         />
 </menu>
