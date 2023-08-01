@@ -25,7 +25,9 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -145,18 +147,36 @@ public class ActivePhoto extends MainActivity {
             //Saving the image as an object alongside it's other bits.
             Button saveButton = (Button) findViewById(R.id.save_photo_button);
             saveButton.setOnClickListener((click) -> {
-                SavedImageBean savedImage = new SavedImageBean(urlString, dateString);
-                try {
-                    FileOutputStream outputStream = new FileOutputStream(new File(getApplicationContext().getFilesDir(), savedImage.date));
-                    Log.i("savedImageDate", savedImage.date);
-                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-                    objectOutputStream.writeObject(savedImage);
-                    objectOutputStream.close();
-                    outputStream.close();
+                //Attempting to save bitmap with date as the list
 
+                FileOutputStream outputStream = null;
+                try {
+                    outputStream = new FileOutputStream(new File(getApplicationContext().getFilesDir(), dateString));
+                    spacePic.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                    outputStream.close();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+
+
+                //this is all an attempt to save things via a serializable object.
+
+//                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                spacePic.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//                byte[] byteArray = stream.toByteArray();
+//                SavedImageBean savedImage = new SavedImageBean(urlString, dateString, byteArray);
+//                try {
+//                    FileOutputStream outputStream = new FileOutputStream(new File(getApplicationContext().getFilesDir(), savedImage.date));
+//                    Log.i("savedImageDate", savedImage.date);
+//                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+//                    objectOutputStream.writeObject(savedImage);
+//                    objectOutputStream.close();
+//                    outputStream.close();
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
             });
         }
     }

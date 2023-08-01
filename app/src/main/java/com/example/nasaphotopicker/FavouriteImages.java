@@ -6,13 +6,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -47,25 +50,23 @@ public class FavouriteImages extends MainActivity{
         navigationView.setNavigationItemSelectedListener(this);
 
         //setting up the arraylist of the saved images for use by the listview and the fragment
-        ArrayList<SavedImageBean> picList = new ArrayList<>();
+//        ArrayList<SavedImageBean> picList = new ArrayList<>();
         String[] files = getApplicationContext().fileList();
-        if (files != null) {
-            for (int i = 0; i < files.length; i++) {
-                try {
-
-                    String filePath = this.getFilesDir().toString() + "/" + files[i];
-                    Log.i("Files:", filePath);
-                    FileInputStream fileInputStream = new FileInputStream(filePath);
-                    ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-                    SavedImageBean savedImageBean = (SavedImageBean) objectInputStream.readObject();
-                    picList.add(savedImageBean);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }
+//        if (files != null) {
+//            for (int i = 0; i < files.length; i++) {
+//                try {
+//                    String filePath = this.getFilesDir().toString() + "/" + files[i];
+//                    Log.i("Files:", filePath);
+//                    FileInputStream fileInputStream = new FileInputStream(filePath);
+//                    ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+//                    SavedImageBean savedImageBean = (SavedImageBean) objectInputStream.readObject();
+//                    picList.add(savedImageBean);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//        }
 
 
 
@@ -74,22 +75,26 @@ public class FavouriteImages extends MainActivity{
 
             @Override
             public int getCount() {
-                return 0;
+                return files.length;
             }
 
             @Override
             public Object getItem(int position) {
-                return null;
+                return files[position];
             }
 
             @Override
             public long getItemId(int position) {
-                return 0;
+                return position;
             }
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                return null;
+                LayoutInflater inflater = getLayoutInflater();
+                View newView = inflater.inflate(R.layout.favourite_list_item, parent, false);
+                TextView tView = newView.findViewById(R.id.favourites_list_item);
+                tView.setText(files[position]);
+                return newView;
             }
         }
 
@@ -97,6 +102,20 @@ public class FavouriteImages extends MainActivity{
 
         NewAdaptor adaptor = new NewAdaptor();
         ListView listView = (ListView) findViewById(R.id.favourites_list_view);
+        listView.setAdapter(adaptor);
+
+        listView.setOnItemLongClickListener( (p, b, pos, id ) -> {
+
+            //Creating a bundle to pass the clicked on item
+            //based on it's position to the fragment FavouriteImage
+            Bundle bundle = new Bundle();
+            bundle.putCharSequence("date", files[pos]);
+            bundle.putCharSequence("filePath", this.getFilesDir().toString() + "/" + files[pos]);
+            Intent moveIntent = new Intent(FavouriteImages.this, EmptyActivity.class);
+            moveIntent.putExtras(bundle);
+            FavouriteImages.this.startActivity(moveIntent);
+            return false;
+        });
 
 
 

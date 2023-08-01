@@ -16,6 +16,10 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -69,27 +73,26 @@ public class FavouriteImage extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
+        Log.i("inside the Frag:", "inside the frag");
         View view = inflater.inflate(R.layout.fragment_favourite_image, container, false);
         TextView urlText = view.findViewById(R.id.saved_photo_url);
         TextView dateText = view.findViewById(R.id.saved_photo_date);
         ImageView spaceImageView = view.findViewById(R.id.saved_photo_image);
-        Bundle theData = new Bundle();
+        Bundle theData;
         theData = getArguments();
-        Log.i("theData:", theData.toString());
-        try {
-            JSONObject nasaJSON = new JSONObject(theData.getString("nasaData"));
-            String url = nasaJSON.getString("url");
-            String date = nasaJSON.getString("date");
+//        SavedImageBean bean = (SavedImageBean) theData.getSerializable("bean");
 
-            URL imageUrl = new URL(nasaJSON.getString("url"));
-            Bitmap spacePic = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
-            urlText.setText(url);
-            dateText.setText(date);
-            spaceImageView.setImageBitmap(spacePic);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Log.i("Inside the frag: bundle:", theData.toString());
+        Bitmap spacePic = null;
+
+
+
+
+//        urlText.setText(bean.url);
+        dateText.setText(theData.getString("date"));
+        Bitmap pic = BitmapFactory.decodeFile(theData.getString("filePath"));
+        spaceImageView.setImageBitmap(pic);
+
         return view;
 
 //        return inflater.inflate(R.layout.fragment_favourite_image, container, false);
