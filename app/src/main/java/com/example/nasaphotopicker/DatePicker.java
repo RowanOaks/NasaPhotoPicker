@@ -8,6 +8,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -49,10 +50,29 @@ public class DatePicker extends MainActivity {
             Intent intent = new Intent(getApplicationContext(), ActivePhoto.class);
             intent.putExtra("datePicked", dateEditText.getText().toString());
             Log.i("Date Entered: ", dateEditText.getText().toString());
+            //saving the date to shared preferences
+            SharedPreferences lastDate = getPreferences(MODE_PRIVATE);
+            SharedPreferences.Editor editor = lastDate.edit();
+            editor.putString("date", dateEditText.getText().toString());
+            editor.commit();
+            //starting the next activity
             this.startActivity(intent);
         });
 
+
+
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        EditText dateText = (EditText)findViewById(R.id.edit_date);
+        SharedPreferences settings = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("date", dateText.getText().toString());
+        editor.commit();
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 

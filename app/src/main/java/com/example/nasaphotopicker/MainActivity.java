@@ -8,11 +8,13 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -37,22 +39,18 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-    }
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        String message = null;
-        Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
-        toast.show();
-        return false;
+        //Last date button
+        Button lastDateButton = (Button) findViewById(R.id.last_active_date);
+        lastDateButton.setOnClickListener((click) -> {
+            SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+            Intent intent = new Intent(MainActivity.this, ActivePhoto.class);
+            intent.putExtra("date", preferences.getString("datePicked", null));
+            MainActivity.this.startActivity(intent);
+        });
+
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.toolbar_menu, menu);
 
-        return super.onCreateOptionsMenu(menu);
-    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

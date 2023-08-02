@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -142,8 +143,8 @@ public class ActivePhoto extends MainActivity {
             if (dateString != null && urlString != null) {
                 textDate.setText(dateString);
                 textUrl.setText(urlString);
-
             }
+
             //Saving the image as an object alongside it's other bits.
             Button saveButton = (Button) findViewById(R.id.save_photo_button);
             saveButton.setOnClickListener((click) -> {
@@ -154,6 +155,7 @@ public class ActivePhoto extends MainActivity {
                     outputStream = new FileOutputStream(new File(getApplicationContext().getFilesDir(), dateString));
                     spacePic.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
                     outputStream.close();
+                    Toast.makeText(ActivePhoto.this, R.string.save_toast, Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

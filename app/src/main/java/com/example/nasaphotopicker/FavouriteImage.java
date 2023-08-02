@@ -1,21 +1,28 @@
 package com.example.nasaphotopicker;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -67,6 +74,8 @@ public class FavouriteImage extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
@@ -75,23 +84,44 @@ public class FavouriteImage extends Fragment {
         // Inflate the layout for this fragment
         Log.i("inside the Frag:", "inside the frag");
         View view = inflater.inflate(R.layout.fragment_favourite_image, container, false);
-        TextView urlText = view.findViewById(R.id.saved_photo_url);
+        //setting up widgets from the XML
         TextView dateText = view.findViewById(R.id.saved_photo_date);
         ImageView spaceImageView = view.findViewById(R.id.saved_photo_image);
+        Button deleteButton = (Button) view.findViewById(R.id.delete_favourite_button);
+        //getting the passed data into a bundle
         Bundle theData;
         theData = getArguments();
-//        SavedImageBean bean = (SavedImageBean) theData.getSerializable("bean");
-
-        Log.i("Inside the frag: bundle:", theData.toString());
         Bitmap spacePic = null;
 
-
-
-
-//        urlText.setText(bean.url);
+        //setting the image and the date to the file of the favourited image
         dateText.setText(theData.getString("date"));
         Bitmap pic = BitmapFactory.decodeFile(theData.getString("filePath"));
         spaceImageView.setImageBitmap(pic);
+
+        //Setting up the delete Button
+       deleteButton.setOnClickListener( (click) -> {
+           AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this.getContext());
+           alertDialogBuilder.setMessage(R.string.delete_alert_title);
+           alertDialogBuilder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+               @Override
+               public void onClick(DialogInterface dialog, int which) {
+                   File file = new File(theData.getString("filePath"));
+                   file.delete();
+                   getActivity().finish();
+                   Snackbar snack = Snackbar.make(view, R.string.deleted, Snackbar.LENGTH_LONG);
+                   snack.show();
+                   Intent intent = new Intent(getActivity(), FavouriteImages.class);
+                   startActivity(intent);
+               }
+           });
+           alertDialogBuilder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+               @Override
+               public void onClick(DialogInterface dialog, int which) {
+
+               }
+           });
+           alertDialogBuilder.create().show();
+       });
 
         return view;
 
