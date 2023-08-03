@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity
         lastDateButton.setOnClickListener((click) -> {
             SharedPreferences preferences = getPreferences(MODE_PRIVATE);
             Intent intent = new Intent(MainActivity.this, ActivePhoto.class);
-            intent.putExtra("date", preferences.getString("datePicked", null));
+            Log.i("Preferences: ", preferences.getString("date", null));
+            intent.putExtra("datePicked", preferences.getString("date", null));
             MainActivity.this.startActivity(intent);
         });
 

@@ -108,9 +108,8 @@ public class FavouriteImage extends Fragment {
                    File file = new File(theData.getString("filePath"));
                    file.delete();
                    getActivity().finish();
-                   Snackbar snack = Snackbar.make(view, R.string.deleted, Snackbar.LENGTH_LONG);
-                   snack.show();
                    Intent intent = new Intent(getActivity(), FavouriteImages.class);
+                   intent.putExtra("isDeleted", true);
                    startActivity(intent);
                }
            });

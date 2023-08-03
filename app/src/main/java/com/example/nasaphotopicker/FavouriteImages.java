@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,21 +53,11 @@ public class FavouriteImages extends MainActivity{
         //setting up the arraylist of the saved images for use by the listview and the fragment
 //        ArrayList<SavedImageBean> picList = new ArrayList<>();
         String[] files = getApplicationContext().fileList();
-//        if (files != null) {
-//            for (int i = 0; i < files.length; i++) {
-//                try {
-//                    String filePath = this.getFilesDir().toString() + "/" + files[i];
-//                    Log.i("Files:", filePath);
-//                    FileInputStream fileInputStream = new FileInputStream(filePath);
-//                    ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-//                    SavedImageBean savedImageBean = (SavedImageBean) objectInputStream.readObject();
-//                    picList.add(savedImageBean);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//        }
+
+        if (getIntent().getBooleanExtra("isDeleted", false) == true) {
+            Snackbar snack = Snackbar.make(this.findViewById(R.id.favourites_list_view) , R.string.deleted, Snackbar.LENGTH_LONG);
+            snack.show();
+        }
 
 
 
