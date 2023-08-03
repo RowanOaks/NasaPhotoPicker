@@ -1,14 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NasaPhotoPicker</string>
     <string name="open">open</string>
     <string name="close">close</string>
-    <string name="date_picker_title">"Pick a Date v.1 "</string>
+    <string name="date_picker_title">Choisir une Date v.1</string>
     <string name="favourite_images_title">Favourite Images v.1</string>
     <string name="date_picker_label">Enter a date</string>
     <string name="title_active_photo">Active Photo v.1</string>
     <string name="save_photo_button">Save</string>
     <string name="delete_button">Delete</string>
-    <string name="delete_alert_title">Delete</string>
+    <string name="delete_alert_title">Would you like to delete this entry?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="save_toast">Photo saved</string>

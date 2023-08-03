@@ -11,25 +11,28 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.EditText;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity
-    implements NavigationView.OnNavigationItemSelectedListener{
+import java.util.regex.Pattern;
+
+import kotlin.text.Regex;
+
+public class DatePicker extends MainActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_date_picker);
 
+        //Block for setting up the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Block for setting up the navigation Drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
                 drawer, toolbar, R.string.open, R.string.close);
@@ -39,29 +42,50 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //Last date button
-        Button lastDateButton = (Button) findViewById(R.id.last_active_date);
-        lastDateButton.setOnClickListener((click) -> {
-            SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-            Intent intent = new Intent(MainActivity.this, ActivePhoto.class);
-            Log.i("Preferences: ", preferences.getString("date", null));
-            intent.putExtra("datePicked", preferences.getString("date", null));
-            MainActivity.this.startActivity(intent);
+        //Date picked when button pressed
+        Button dateButton = (Button) findViewById(R.id.date_button);
+        EditText dateEditText = (EditText) findViewById(R.id.edit_date);
+
+        dateButton.setOnClickListener( (click) -> {
+            Intent intent = new Intent(getApplicationContext(), ActivePhoto.class);
+            intent.putExtra("datePicked", dateEditText.getText().toString());
+            Log.i("Date Entered: ", dateEditText.getText().toString());
+            //saving the date to shared preferences
+            SharedPreferences lastDate = getPreferences(MODE_PRIVATE);
+            SharedPreferences.Editor editor = lastDate.edit();
+            editor.putString("date", dateEditText.getText().toString());
+            editor.commit();
+            //starting the next activity
+            this.startActivity(intent);
         });
+
+
 
     }
 
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        EditText dateText = (EditText)findViewById(R.id.edit_date);
+        SharedPreferences settings = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("date", dateText.getText().toString());
+        editor.commit();
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         int id = item.getItemId();
-        //Starts an activity by calling NavigationMethods which holds the intents of menu options
+
         startActivity(NavigationMethods.DrawerChoice(this,id));
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return false;
     }
+
+
+
 
 }

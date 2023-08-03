@@ -4,10 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-    <!--
-    Drawer Layout is set as the root for navigation purposes.
-    -->
+    tools:context=".DatePicker">
+
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
@@ -17,11 +15,10 @@
         tools:ignore="MissingConstraints">
 
 
-        <!-- default constraint layout for main layout of acitivity -->
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="409dp"
@@ -29,30 +26,33 @@
                 android:background="?attr/colorPrimary"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="?attr/actionBarTheme"
-                app:title="@string/app_name"
+                app:title="@string/date_picker_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
             <TextView
-                android:id="@+id/welcome_text_view"
+                android:id="@+id/date_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/welcome_message"
-                android:textSize="20dp"
+                android:text="@string/date_picker_label"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/toolbar"/>
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                android:textSize="35dp" />
 
+            <EditText
+                android:id="@+id/edit_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/date_label"/>
             <Button
-                android:id="@+id/last_active_date"
+                android:id="@+id/date_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/last_date_button"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/welcome_text_view"/>
-
+                app:layout_constraintRight_toRightOf="parent"
+                android:text="ENTER"
+                app:layout_constraintTop_toBottomOf="@id/edit_date"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- actual navigation drawer view for pull out menu -->
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view"
             android:layout_width="wrap_content"
@@ -63,6 +63,7 @@
             android:backgroundTint="@color/black"
             android:alpha="255"
             />
+
     </androidx.drawerlayout.widget.DrawerLayout>
 
 
